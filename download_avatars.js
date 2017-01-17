@@ -29,7 +29,7 @@ function getRepoContributors (repoOwner, repoName, cb) {
       console.log(response.statusMessage);
       console.log(response.statusCode);
       var body = JSON.parse(avatars);
-      console.log(body);
+      cb(body);
 
     } else {
       console.log("Something unexpected happened - Status Code 400 plus");
@@ -40,9 +40,10 @@ function getRepoContributors (repoOwner, repoName, cb) {
 }
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log(requestURL);
-  console.log("Errors:", err);
-  console.log("Result:", result);
+getRepoContributors("jquery", "jquery", function(contributorObj) {
+  contributorObj.forEach(function(avatars) {
+    console.log(avatars.avatar_url);
+
+  });
 });
 
