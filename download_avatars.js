@@ -1,11 +1,16 @@
 var request = require('request');
-const API_URL = "https://api.github.com/users/lighthouse-labs";
+var GITHUB_USER = "joshtran";
+var GITHUB_TOKEN = "605b127ccace488342149ee40f538cd6b8e191c1";
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRepoContributors (repoOwner, repoName, cb) {
 
-  request (API_URL, function (err, res, avatars) {
+  var requestURL = "https://"+ GITHUB_USER + GITHUB_TOKEN + "@api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
+
+  console.log(requestURL);
+
+  request (requestURL, function (err, res, avatars) {
 
     // if (err) {
     //   console.log("There was an error.")
@@ -25,6 +30,7 @@ function getRepoContributors (repoOwner, repoName, cb) {
 
 
 getRepoContributors("jquery", "jquery", function(err, result) {
+  console.log(requestURL);
   console.log("Errors:", err);
   console.log("Result:", result);
 });
