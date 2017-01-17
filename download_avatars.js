@@ -1,4 +1,5 @@
-var request = require('request');
+var request = require("request");
+var fs = require("fs")
 var GITHUB_USER = "joshtran";
 var GITHUB_TOKEN = "605b127ccace488342149ee40f538cd6b8e191c1";
 
@@ -15,7 +16,6 @@ function getRepoContributors (repoOwner, repoName, cb) {
       "User-Agent": "GitHub Avatar Downloader - Student Project"
     }
   };
-
 
   request (options, function (err, response, avatars) {
 
@@ -46,4 +46,10 @@ getRepoContributors("jquery", "jquery", function(contributorObj) {
 
   });
 });
+
+function downloadImageByURL(url, filePath) {
+  request.get(url).pipe(fs.createWriteStream("kvirani.jpg"));
+}
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
 
