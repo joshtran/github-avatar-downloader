@@ -3,6 +3,15 @@ var fs = require("fs")
 var GITHUB_USER = "joshtran";
 var GITHUB_TOKEN = "605b127ccace488342149ee40f538cd6b8e191c1";
 
+var mkdirSync = function () {
+  try {
+    fs.mkdirSync("avatars");
+  } catch (e) {
+    if (e.code != 'EEXIST') throw e;
+  }
+
+}();
+
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -39,17 +48,21 @@ function getRepoContributors (repoOwner, repoName, cb) {
 
 }
 
+function downloadImageByURL(url, filePath) {
+  // console.log(url);
+  // console.log(filePath);
+  request.get(url).pipe(fs.createWriteStream(filePath));
+}
 
 getRepoContributors("jquery", "jquery", function(contributorObj) {
   contributorObj.forEach(function(avatars) {
-    console.log(avatars.avatar_url);
-
+    var avatarPath = "avatars/" + avatars.login +".jpg";
+    var avatarURL = avatars.avatar_url;
+    downloadImageByURL(avatarURL, avatarPath);
   });
 });
 
-function downloadImageByURL(url, filePath) {
-  request.get(url).pipe(fs.createWriteStream("kvirani.jpg"));
-}
 
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+
+
 
