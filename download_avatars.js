@@ -6,18 +6,20 @@ var fs = require("fs")
 var GITHUB_USER = "joshtran";
 var GITHUB_TOKEN = "605b127ccace488342149ee40f538cd6b8e191c1";
 
+
+//Create avatars folder
 var mkdirSync = function () {
   try {
     fs.mkdirSync("avatars");
   } catch (e) {
     if (e.code != 'EEXIST') throw e;
   }
-
 }();
-
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
+
+//Retrieve info from github
 function getRepoContributors (repoOwner, repoName, cb) {
 
   var requestURL = "https://"+ GITHUB_USER + ':' + GITHUB_TOKEN + "@api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
@@ -51,14 +53,15 @@ function getRepoContributors (repoOwner, repoName, cb) {
 
 }
 
+
+//Download image
 function downloadImageByURL(url, filePath) {
-  // console.log(url);
-  // console.log(filePath);
   request.get(url).pipe(fs.createWriteStream(filePath));
 }
 
+//Require proper input from command line
 if (gitOwner && gitRepo) {
-
+//Initiate program
 getRepoContributors(gitOwner, gitRepo, function(contributorObj) {
   contributorObj.forEach(function(avatars) {
     var avatarPath = "avatars/" + avatars.login +".jpg";
