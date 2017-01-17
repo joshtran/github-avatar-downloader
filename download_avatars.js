@@ -1,3 +1,6 @@
+var myArgs = process.argv;
+var gitOwner = myArgs[2];
+var gitRepo = myArgs[3];
 var request = require("request");
 var fs = require("fs")
 var GITHUB_USER = "joshtran";
@@ -54,7 +57,9 @@ function downloadImageByURL(url, filePath) {
   request.get(url).pipe(fs.createWriteStream(filePath));
 }
 
-getRepoContributors("jquery", "jquery", function(contributorObj) {
+if (gitOwner && gitRepo) {
+
+getRepoContributors(gitOwner, gitRepo, function(contributorObj) {
   contributorObj.forEach(function(avatars) {
     var avatarPath = "avatars/" + avatars.login +".jpg";
     var avatarURL = avatars.avatar_url;
@@ -62,6 +67,9 @@ getRepoContributors("jquery", "jquery", function(contributorObj) {
   });
 });
 
+} else {
+  console.log("Please enter both GitHub owner and GitHub Repo.");
+}
 
 
 
